@@ -13,13 +13,14 @@ typedef struct SList {
 	struct SListNode *first;
 }	SList;
 
+// 初始化单链表
 void SListInit(SList *list)
 {
 	assert(list != NULL);
 	list->first = NULL;
 }
 
-
+// 销毁单链表
 void SListDestroy(SList *list)
 {
 	SListNode *next;
@@ -31,6 +32,7 @@ void SListDestroy(SList *list)
 	list->first = NULL;
 }
 
+// 申请单链表节点空间
 SListNode * BuySListNode(SLDataType data)
 {
 	SListNode *node = (SListNode *)malloc(sizeof(SListNode));
@@ -41,6 +43,7 @@ SListNode * BuySListNode(SLDataType data)
 	return node;
 }
 
+// 单链表头插
 void SListPushFront(SList *list, SLDataType data)
 {
 	assert(list != NULL);
@@ -53,6 +56,7 @@ void SListPushFront(SList *list, SLDataType data)
 	list->first = node;
 }
 
+// 单链表头删
 void SListPopFront(SList *list)
 {
 	assert(list);	// 没有链表
@@ -63,74 +67,7 @@ void SListPopFront(SList *list)
 	free(old_first);
 }
 
-void SListPushBack(SList *list, SLDataType data)
-{
-	assert(list != NULL);
-
-	if (list->first == NULL) {
-		// 链表为空
-		SListPushFront(list, data);
-		return;
-	}
-
-	// 链表中已经有结点的情况
-	// 找最后一个结点
-	SListNode *lastone = list->first;
-	for (; lastone->next != NULL; lastone = lastone->next) {
-	}
-	// lastone 就是最后一个结点
-
-	// 申请空间
-	SListNode *node = BuySListNode(data);
-	lastone->next = node;
-}
-
-void SListPopBack(SList *list)
-{
-	assert(list != NULL);
-	assert(list->first != NULL);	// 0 个
-
-	if (list->first->next == NULL) {
-		// 1 个
-		SListPopFront(list);
-		return;
-	}
-
-	// 通常情况 >= 2 个
-	SListNode *cur;
-	for (cur = list->first; cur->next->next != NULL; cur = cur->next) {
-	}
-	// cur 就是倒数第二个结点
-	free(cur->next);
-	cur->next = NULL;
-}
-
-SListNode * SListFind(SList *list, SLDataType data)
-{
-	for (SListNode *cur = list->first; cur != NULL; cur = cur->next) {
-		if (cur->data == data) {
-			return cur;
-		}
-	}
-
-	// 没找到
-	return NULL;
-}
-
-void SListInsertAfter(SListNode *pos, SLDataType data)
-{
-	SListNode *node = BuySListNode(data);
-	node->next = pos->next;
-	pos->next = node;
-}
-
-void SListEraseAfter(SListNode *pos)
-{
-	SListNode *next = pos->next->next;	// next 是 D
-	free(pos->next);
-	pos->next = next;
-}
-
+// 删除值为data的节点
 void SListRemove(SList *list, SLDataType data)
 {
 	// 重点是找到 data 这个结点的前一个结点
@@ -161,6 +98,7 @@ void SListRemove(SList *list, SLDataType data)
 	free(cur);
 }
 
+// 遍历打印单链表
 void SListPrint(SList *list)
 {
 	for (SListNode *cur = list->first; cur != NULL; cur = cur->next) {
@@ -169,86 +107,214 @@ void SListPrint(SList *list)
 	printf("NULL\n");
 }
 
-
-void TestSList1()
-{
-	SList list;
-	SListInit(&list);
-
-	SListPrint(&list);
-
-	SListPushFront(&list, 3);
-	SListPushFront(&list, 2);
-	SListPushFront(&list, 1);
-	SListPrint(&list);
-
-	SListPopFront(&list);
-	SListPopFront(&list);
-
-	SListPrint(&list);
-
-	SListPopFront(&list);
-	SListPrint(&list);
-
-	SListPushBack(&list, 4);
-	SListPushBack(&list, 5);
-	SListPushBack(&list, 6);
-	SListPrint(&list);
-
-	SListPopBack(&list);
-	SListPrint(&list);
-	SListPopBack(&list);
-	SListPrint(&list);
-	SListPopBack(&list);
-	SListPrint(&list);
+void menu() {
+	printf("  a：建立单链表\n");
+	printf("  b：遍历打印单链表\n");
+	printf("  c：逆置单链表\n");
+	printf("  d：非递减有序单链表\n");
+	printf("  e：非递减有序单链表中插入一个元素使链表仍然有序\n");
+	printf("  f：在非递减有序链表中删除值为x的结点\n");
 }
 
-void TestSList2() {
+//void main() {
+//	char x;
+//	bool flag2 = 0;
+//	DisplayMainMenu();
+//	do {
+//		do {
+//			cin >> x;
+//			if ((x >= 'a'&&x <= 'z'))flag2 = 1;
+//			else {
+//				cout << "指令错误!!!!!!!!!!" << endl;
+//				cout << " 请选择相应的数字进行操作: " << endl;
+//			}
+//		} while (flag2 == 0);
+//		switch (x) {
+//		case 'a':
+//			cout << "******************************现在进行学生信息录入******************************\n";
+//			InputScore();
+//			cout << "输入的学生信息为：" << endl;
+//			ShowStudentInfo();
+//			cout << "********************************************************************************\n";
+//			DisplayMainMenu();
+//			break;
+//		case 'b': {
+//			char z;
+//			cout << "******************************现在进行学生信息查询******************************\n";
+//			cout << "请选择查询方式：" << endl;
+//			cout << "(0)--按姓名查询；   (1)--按学号查询；" << endl;
+//			cin >> z;
+//			while (z != '0'&&z != '1') {
+//				cout << "指令错误(请选择(0)或者(1))!!!!!!!" << endl;
+//				cout << "请选择查询方式：(0)--按姓名查询；   (1)--按学号查询；";
+//				cin >> z;
+//			}
+//			switch (z) {
+//			case '0':SearchByName(); break;//按姓名查询
+//			case '1':SearchByNumber(); break;//按学号查询
+//			}
+//			cout << "********************************************************************************\n";
+//			DisplayMainMenu();
+//			break;
+//		}
+//		case 'c': {
+//			char p;
+//			cout << "******************************现在进行学生信息修改******************************\n";
+//			cout << "请选择修改方式：(0)--按姓名修改；     (1)--按学号修改；" << endl;
+//			cin >> p;
+//			while (p != '0'&&p != '1') {
+//				cout << "指令错误(请选择(0)或者(1))!!!!!!!" << endl;
+//				cout << "请选择修改方式：(0)--按姓名修改；     (1)--按学号修改；" << endl;
+//				cin >> p;
+//			}
+//			switch (p) {
+//			case  '0': EditByName(); break;//按姓名修改
+//			case  '1': EditByNumber(); break;//按学号修改 
+//			}
+//			cout << "********************************************************************************\n";
+//			DisplayMainMenu();
+//			break;
+//		}
+//		case 'd':
+//			cout << "******************************现在进行学生信息删除******************************\n";
+//			Delete();//删除
+//			ShowStudentInfo();
+//			cout << "********************************************************************************\n";
+//			DisplayMainMenu();
+//			break;
+//		case 'e':
+//			cout << "******************************现在进行显示学生信息******************************\n";
+//			ShowStudentInfo(); //显示数据 	    
+//			cout << "********************************************************************************\n";
+//			DisplayMainMenu();
+//			break;
+//		case 'f':
+//			cout << "******************************现在进行保存学生信息******************************\n";
+//			save();//保存学生信息		    
+//			cout << "********************************************************************************\n";
+//			DisplayMainMenu();
+//			break;
+//		case 'g':
+//			cout << "******************************现在进行读取学生信息******************************\n";
+//			FreadFile();
+//			cout << "********************************************************************************\n";
+//			DisplayMainMenu();
+//			break;
+//		case 'h':
+//			cout << "********************************************************************************\n";
+//			cout << " 您已退出学生成绩管理系统, 谢谢您的使用! \n";
+//			cout << "********************************************************************************\n";
+//			cout << endl;
+//			exit(0);
+//			break;
+//		case 'i':
+//			cout << "********************************************************************************\n";
+//			cout << "*****************************现在进行插入学生信息*********************************\n";
+//			Insert();
+//			cout << "********************************************************************************\n";
+//			DisplayMainMenu();
+//			break;
+//		}
+//	} while (flag2 == 1);
+//}
 
-	SList list;
-	SListInit(&list);
-
-	SListPushBack(&list, 1);
-	SListPushBack(&list, 2);
-	SListPushBack(&list, 3);
-	SListPushBack(&list, 4);
-	SListPushBack(&list, 5);
-	SListPrint(&list);
-
-	// 3 后面插入 10
-	SListNode *n3 = SListFind(&list, 3);
-	SListInsertAfter(n3, 10);
-	SListPrint(&list);
-
-	SListEraseAfter(n3);
-	SListPrint(&list);
-}
-
-void TestSList3()
-{
-	SList list;
-	SListInit(&list);
-
-	SListPushBack(&list, 1);
-	SListPushBack(&list, 2);
-	SListPushBack(&list, 3);
-	SListPushBack(&list, 4);
-	SListPushBack(&list, 5);
-	SListPrint(&list);
 
 
-	SListRemove(&list, 3);
-	SListPrint(&list);
 
-	SListRemove(&list, 1);
-	SListPrint(&list);
 
-	SListRemove(&list, 5);
-	SListPrint(&list);
-}
+//void TestSList1()
+//{
+//	SList list;
+//	SListInit(&list);
+//
+//	SListPrint(&list);
+//
+//	SListPushFront(&list, 3);
+//	SListPushFront(&list, 2);
+//	SListPushFront(&list, 1);
+//	SListPrint(&list);
+//
+//	SListPopFront(&list);
+//	SListPopFront(&list);
+//
+//	SListPrint(&list);
+//
+//	SListPopFront(&list);
+//	SListPrint(&list);
+//
+//	SListPushBack(&list, 4);
+//	SListPushBack(&list, 5);
+//	SListPushBack(&list, 6);
+//	SListPrint(&list);
+//
+//	SListPopBack(&list);
+//	SListPrint(&list);
+//	SListPopBack(&list);
+//	SListPrint(&list);
+//	SListPopBack(&list);
+//	SListPrint(&list);
+//}
+//
+//void TestSList2() {
+//
+//	SList list;
+//	SListInit(&list);
+//
+//	SListPushBack(&list, 1);
+//	SListPushBack(&list, 2);
+//	SListPushBack(&list, 3);
+//	SListPushBack(&list, 4);
+//	SListPushBack(&list, 5);
+//	SListPrint(&list);
+//
+//	// 3 后面插入 10
+//	SListNode *n3 = SListFind(&list, 3);
+//	SListInsertAfter(n3, 10);
+//	SListPrint(&list);
+//
+//	SListEraseAfter(n3);
+//	SListPrint(&list);
+//}
+
+//void TestSList3()
+//{
+//	SList list;
+//	SListInit(&list);
+//
+//	SListPushBack(&list, 1);
+//	SListPushBack(&list, 2);
+//	SListPushBack(&list, 3);
+//	SListPushBack(&list, 4);
+//	SListPushBack(&list, 5);
+//	SListPrint(&list);
+//
+//
+//	SListRemove(&list, 3);
+//	SListPrint(&list);
+//
+//	SListRemove(&list, 1);
+//	SListPrint(&list);
+//
+//	SListRemove(&list, 5);
+//	SListPrint(&list);
+//}
+
+//int main() {
+//	TestSList3();
+//	system("pause");
+//	return 0;
+//}
+
 
 int main() {
-	TestSList3();
+	SList list;
+	menu();
+
+	while (1) {
+
+	}
+
+
 	system("pause");
 	return 0;
 }

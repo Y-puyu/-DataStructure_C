@@ -1,2 +1,3 @@
 ﻿  test.c
+d:\aaatest\datastructure_c\singlelinkedlist\singlelinkedlist\test.c(309): warning C4101: “list”: 未引用的局部变量
   SingleLinkedList.vcxproj -> D:\AAATest\DataStructure_C\SingleLinkedList\Debug\SingleLinkedList.exe
