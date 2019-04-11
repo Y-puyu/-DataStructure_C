@@ -1,3 +1,4 @@
+#define _CRT_SECURE_NO_WARNINGS
 #include <stdlib.h>
 #include <assert.h>
 #include <stdio.h>
@@ -108,12 +109,13 @@ void SListPrint(SList *list)
 }
 
 void menu() {
-	printf("  a：建立单链表\n");
-	printf("  b：遍历打印单链表\n");
-	printf("  c：逆置单链表\n");
-	printf("  d：非递减有序单链表\n");
-	printf("  e：非递减有序单链表中插入一个元素使链表仍然有序\n");
-	printf("  f：在非递减有序链表中删除值为x的结点\n");
+	printf("  1：建立单链表\n");
+	printf("  2：遍历打印单链表\n");
+	printf("  3：逆置单链表\n");
+	printf("  4：非递减有序单链表\n");
+	printf("  5：非递减有序单链表中插入一个元素使链表仍然有序\n");
+	printf("  6：在非递减有序链表中删除值为x的结点\n");
+	printf("请选择:");
 }
 
 //void main() {
@@ -308,9 +310,21 @@ void menu() {
 
 int main() {
 	SList list;
+	SListInit(&list);
+	int n;
 	menu();
 
 	while (1) {
+		scanf("%d", &n);
+		switch (n)
+		{
+		case 1:
+			SListPushFront(&list, 3);
+			SListPushFront(&list, 2);
+			SListPushFront(&list, 1);
+			SListPrint(&list);
+			break;
+		}
 
 	}
 
