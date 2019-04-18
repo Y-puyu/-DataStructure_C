@@ -70,7 +70,7 @@ void QueuePush(Queue *queue, QDataType val) {
 	node->val = val;
 	node->next = NULL;
 	queue->size++;
-
+	
 	if (queue->rear == NULL) {
 		queue->front = queue->rear = node;
 	}
@@ -92,6 +92,16 @@ void QueuePop(Queue *queue) {
 	if (queue->front == NULL) {
 		queue->rear = NULL;
 	}
+}
+
+// 打印队列元素
+void QueuePrint(Queue *queue) {
+	Queue *qtmp = queue;
+	for (QNode *q = qtmp->front; q != NULL; q=q->next) {
+		cout << qtmp->front->val << ' ';
+		qtmp->front = qtmp->front->next;
+	}
+	cout << endl;
 }
 
 // 数据类型
@@ -131,34 +141,104 @@ void StackPrint(Stack *stack) {
 	for (int i = 0; i < stack->top; i++) {
 		cout << stack->array[i] << "  ";
 	}
+	cout << endl;
+}
+
+// 菜单
+void menu() {
+	cout << "**************************************" << endl;
+	cout << "a. 初始化栈" << endl;
+	cout << "b. 入栈" << endl;
+	cout << "c. 出栈" << endl;
+	cout << "d. 打印栈内元素" << endl;
+	cout << "**************************************" << endl;
 }
 
 int main() {
 	char x;
 	Stack stack;
+	Queue queue;
+	menu();
 	while (cin >> x) {
 		switch (x) {
 		case 'a':
 			cout << "初始化栈stack,初始化成功！"<< endl;
 			StackInit(&stack);
+			menu();
 			break;
 		case 'b':
-			cout << "数据元素val入栈，请输入整形数字val:" << endl;
-			SDataType val;
-			cin >> val;
-			StackPush(&stack, val);
+			cout << "数据元素val_1入栈，请输入整形数字val_1:";
+			SDataType val_1;
+			cin >> val_1;
+			StackPush(&stack, val_1);
 			cout << "入栈成功" << endl;
+			menu();
 			break;
 		case 'c':
 			cout << "栈顶元素出栈：" << endl;
 			StackPop(&stack);
 			cout << "出栈成功！" << endl;
+			menu();
+			break;
+		case 'd':
+			cout << " 打印栈内元素： ";
 			StackPrint(&stack);
+			menu();
+			break;
+		case 'e':
+
+			break;
+
+		case 'f':
+			break;
+
+		case 'g':
+			break;
+		case 'h':
+			break;
+		case 'i':
+			break;
+
+		case 'j':
+			break;
+
+		case 'k':
+			break;
+		case 'l':
+			break;
+		
+
+		// 链式队列
+		case 'm':
+			cout << "初始化队列" << endl;
+			QueueInit(&queue);
+			cout << "队列初始化成功" << endl;
+			menu();
+			break;
+
+		case 'n':
+			QDataType val_4;
+			cout << "数据元素val_4入队，请输入整形数字val:";
+			cin >> val_4;
+			cout << endl;
+			QueuePush(&queue, val_4);
+			menu();
+			break;
+
+
+		case 'o':
+			cout << "队尾元素出队：" << endl;
+			QueuePop(&queue);
+			cout << "出队成功" << endl;
+			menu();
+			break;
+		case 'p':
+			cout << "打印队列元素" << endl;
+			QueuePrint(&queue);
+			menu();
 			break;
 		}
 	}
-
-
 	system("pause");
 	return 0;
 }
