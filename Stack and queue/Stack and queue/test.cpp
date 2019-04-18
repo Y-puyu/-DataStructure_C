@@ -97,11 +97,11 @@ void QueuePop(Queue *queue) {
 // 打印队列元素
 void QueuePrint(Queue *queue) {
 	Queue *qtmp = queue;
-	for (QNode *q = qtmp->front; q != NULL; q=q->next) {
+	for (QNode *q = qtmp->front; q != queue->rear; q=q->next) {
 		cout << qtmp->front->val << ' ';
 		qtmp->front = qtmp->front->next;
 	}
-	cout << endl;
+	cout << queue->rear->val<<endl;
 }
 
 // 数据类型
