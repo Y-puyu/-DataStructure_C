@@ -5,37 +5,38 @@
 #define MAX_LEN	(100)
 using namespace std;
 
-//typedef int QDataType;
-//
-//typedef struct SQueue {
-//	QDataType data[MAX_LEN];
-//	int front;
-//	int rear;
-//}   _Queue;
-//
-//// 初始化队列
-//_Queue *_InitQueue(_Queue *q) {
-//	_Queue *q = (_Queue*)malloc(sizeof(_Queue));
-//	q->front = 0;
-//	q->rear = 0;
-//	return q;
-//}
-//
-//// 入队
-//void _QueuePush(_Queue *q, int val) {
-//	q->data[q->rear] = val;
-//	q->rear++;
-//}
-//
-//// 出队
-//void _QueuePop(_Queue *q, int val) {
-//	int tmp = q->data[q->front];
-//	for (int i = 1; i == q->rear; i++) {
-//		q->data[i] = q->data[i+1];
-//	}
-//}
+typedef int QDataType;
 
+typedef struct SQueue {
+	QDataType data[MAX_LEN];
+	int front;
+	int rear;
+}   _Queue;
 
+// 初始化队列
+_Queue *_InitQueue(_Queue *q) {
+	_Queue *q = (_Queue*)malloc(sizeof(_Queue));
+	q->front = 0;
+	q->rear = 0;
+	return q;
+}
+
+// 入队
+void _QueuePush(_Queue *q, int val) {
+	q->data[q->rear] = val;
+	q->rear++;
+}
+
+// 出队
+void _QueuePop(_Queue *q, int val) {
+	int tmp = q->data[q->front];
+	for (int i = 1; i == q->rear; i++) {
+		q->data[i] = q->data[i+1];
+	}
+}
+void _QueuePrint(_Queue *q) {
+
+}
 
 
 
@@ -53,13 +54,11 @@ typedef struct QNode {
 typedef struct Queue {
 	QNode *front;	// 指向链表的第一个结点，如果链表为空， == NULL
 	QNode *rear;	// 指向链表的最后一个结点，如果链表为空， == NULL
-	int size;		// 表示队列中数据个数
 }	Queue;
 
 // 初始化/销毁
 void QueueInit(Queue *queue) {
 	queue->front = queue->rear = NULL;
-	queue->size = 0;
 }
 
 // 入队
@@ -69,7 +68,6 @@ void QueuePush(Queue *queue, QDataType val) {
 	assert(node);
 	node->val = val;
 	node->next = NULL;
-	queue->size++;
 	
 	if (queue->rear == NULL) {
 		queue->front = queue->rear = node;
@@ -82,9 +80,7 @@ void QueuePush(Queue *queue, QDataType val) {
 
 // 出队
 void QueuePop(Queue *queue) {
-	assert(queue->size > 0);
-	queue->size--;
-
+	assert(queue != NULL);
 	QNode *old_front = queue->front;
 	queue->front = queue->front->next;
 	free(old_front);
@@ -94,12 +90,12 @@ void QueuePop(Queue *queue) {
 	}
 }
 
-// 打印队列元素
+// 打印队列元素        
 void QueuePrint(Queue *queue) {
 	Queue *qtmp = queue;
 	for (QNode *q = qtmp->front; q != queue->rear; q=q->next) {
 		cout << qtmp->front->val << ' ';
-		qtmp->front = qtmp->front->next;
+		// qtmp->front = qtmp->front->next;   出了bug 搞了1天....
 	}
 	cout << queue->rear->val<<endl;
 }
@@ -143,6 +139,27 @@ void StackPrint(Stack *stack) {
 	}
 	cout << endl;
 }
+
+//typedef struct {
+//	int array[50];
+//	int top;
+//}	Stack;
+//
+//// 初始化
+//void StackInit(Stack *s) {
+//	s->top = 0;
+//}
+//
+//// 压栈
+//void StackPush(Stack *s, int v) {
+//	s->array[s->top++] = v;
+//}
+//
+//// 弹栈
+//void StackPop(Stack *s) {
+//	s->top--;
+//}
+
 
 // 菜单
 void menu() {
