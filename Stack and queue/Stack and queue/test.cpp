@@ -7,39 +7,33 @@ using namespace std;
 
 typedef int QDataType;
 
-typedef struct SQueue {
+typedef struct {
 	QDataType data[MAX_LEN];
 	int front;
 	int rear;
-}   _Queue;
+}   SQueue;
 
 // 初始化队列
-_Queue *_InitQueue(_Queue *q) {
-	_Queue *q = (_Queue*)malloc(sizeof(_Queue));
-	q->front = 0;
-	q->rear = 0;
-	return q;
+void InitSQueue(SQueue *q) {
+	q->front = q->rear = -1;
 }
 
 // 入队
-void _QueuePush(_Queue *q, int val) {
-	q->data[q->rear] = val;
+void SQueuePush(SQueue *q, int val) {
 	q->rear++;
+	q->data[q->rear] = val;
 }
 
 // 出队
-void _QueuePop(_Queue *q, int val) {
-	int tmp = q->data[q->front];
-	for (int i = 1; i == q->rear; i++) {
-		q->data[i] = q->data[i+1];
+void SQueuePop(SQueue *q){
+	q->front++;
+}
+void SQueuePrint(SQueue *q) {
+	for (int i = 0; i < q->rear; i++) {
+		cout << q->data[i] << "  " << endl;
 	}
-}
-void _QueuePrint(_Queue *q) {
 
 }
-
-
-
 
 
 typedef int QDataType;
@@ -140,27 +134,6 @@ void StackPrint(Stack *stack) {
 	cout << endl;
 }
 
-//typedef struct {
-//	int array[50];
-//	int top;
-//}	Stack;
-//
-//// 初始化
-//void StackInit(Stack *s) {
-//	s->top = 0;
-//}
-//
-//// 压栈
-//void StackPush(Stack *s, int v) {
-//	s->array[s->top++] = v;
-//}
-//
-//// 弹栈
-//void StackPop(Stack *s) {
-//	s->top--;
-//}
-
-
 // 菜单
 void menu() {
 	cout << "**************************************" << endl;
@@ -168,6 +141,18 @@ void menu() {
 	cout << "b. 入栈" << endl;
 	cout << "c. 出栈" << endl;
 	cout << "d. 打印栈内元素" << endl;
+	cout << "e. " << endl;
+	cout << "f. " << endl;
+	cout << "g. " << endl;
+	cout << "h. " << endl;
+	cout << "i. " << endl;
+	cout << "g. " << endl;
+	cout << "h. " << endl;
+	cout << "k. " << endl;
+	cout << "m. 初始化链式队列" << endl;
+	cout << "n. 数据元素val_4入队，请输入整形数字val:" << endl;
+	cout << "o. 队尾元素出队：" << endl;
+	cout << "p. 打印链式队列元素" << endl;
 	cout << "**************************************" << endl;
 }
 
@@ -175,9 +160,11 @@ int main() {
 	char x;
 	Stack stack;
 	Queue queue;
+	SQueue squeue;
 	menu();
 	while (cin >> x) {
 		switch (x) {
+		// 顺序式栈
 		case 'a':
 			cout << "初始化栈stack,初始化成功！"<< endl;
 			StackInit(&stack);
@@ -202,6 +189,8 @@ int main() {
 			StackPrint(&stack);
 			menu();
 			break;
+		
+		// 链式栈
 		case 'e':
 
 			break;
@@ -213,23 +202,41 @@ int main() {
 			break;
 		case 'h':
 			break;
+
+		// 顺序队列
 		case 'i':
+			cout << "初始化顺序式队列" << endl;
+			InitSQueue(&squeue);
+			cout << "顺序式队列初始化成功" << endl;
 			break;
 
 		case 'j':
+			QDataType val_3;
+			cout << "数据元素val_3入队，请输入整形数字val:";
+			cin >> val_3;
+			cout << endl;
+			SQueuePush(&squeue, val_3);
+			menu();
 			break;
 
 		case 'k':
+			cout << "队尾元素出队" << endl;
+			SQueuePop(&squeue);
+			cout << "出队成功" << endl;
+			menu();
 			break;
 		case 'l':
+			cout << "打印顺序式队列元素" << endl;
+			SQueuePrint(&squeue);
+			menu();
 			break;
 		
 
 		// 链式队列
 		case 'm':
-			cout << "初始化队列" << endl;
+			cout << "初始化链式队列" << endl;
 			QueueInit(&queue);
-			cout << "队列初始化成功" << endl;
+			cout << "链式队列初始化成功" << endl;
 			menu();
 			break;
 
@@ -250,7 +257,7 @@ int main() {
 			menu();
 			break;
 		case 'p':
-			cout << "打印队列元素" << endl;
+			cout << "打印链式队列元素" << endl;
 			QueuePrint(&queue);
 			menu();
 			break;
