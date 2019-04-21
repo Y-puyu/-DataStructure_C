@@ -134,26 +134,137 @@ void StackPrint(Stack *stack) {
 	cout << endl;
 }
 
+// 用单链表模拟实现链式栈
+typedef int SLDataType;
+
+typedef struct SListNode {
+	SLDataType	data;
+	struct SListNode *next;
+}	SListNode;
+
+typedef struct SList {
+	struct SListNode *first;
+}	SList;
+
+// 初始化单链表
+void SListInit(SList *list) {
+	assert(list != NULL);
+	list->first = NULL;
+}
+
+
+// 申请单链表节点空间
+SListNode * BuySListNode(SLDataType data) {
+	SListNode *node = (SListNode *)malloc(sizeof(SListNode));
+	assert(node != NULL);
+	node->data = data;
+	node->next = NULL;
+	return node;
+}
+
+// 单链表尾插即栈元素入栈
+void SListPushFront(SList *list, SLDataType data)
+{
+	assert(list != NULL);
+
+	// 1. Node 空间
+	SListNode *node = BuySListNode(data);
+	// 2. 新的第一个结点的下一个结点就是原来的第一个结点
+	node->next = list->first;
+	// 3. 记录新的第一个结点
+	list->first = node;
+}
+
+void SListPopFront(SList *list)
+{
+	assert(list);	// 没有链表
+	assert(list->first != NULL);	// 有链表，但是链表是空的
+
+	SListNode *old_first = list->first;
+	list->first = list->first->next;
+	free(old_first);
+}
+
+void SListPushBack(SList *list, SLDataType data)
+{
+	assert(list != NULL);
+
+	if (list->first == NULL) {
+		// 链表为空
+		SListPushFront(list, data);
+		return;
+	}
+
+	// 链表中已经有结点的情况
+	// 找最后一个结点
+	SListNode *lastone = list->first;
+	for (; lastone->next != NULL; lastone = lastone->next) {
+	}
+	// lastone 就是最后一个结点
+
+	// 申请空间
+	SListNode *node = BuySListNode(data);
+	lastone->next = node;
+}
+
+void SListPopFront(SList *list) {
+	assert(list);	// 没有链表
+	assert(list->first != NULL);	// 有链表，但是链表是空的
+
+	SListNode *old_first = list->first;
+	list->first = list->first->next;
+	free(old_first);
+}
+// 单链表尾删即栈元素出栈
+void SListPopBack(SList *list)
+{
+	assert(list != NULL);
+	assert(list->first != NULL);	// 0 个
+
+	if (list->first->next == NULL) {
+		// 1 个
+		SListPopFront(list);
+		return;
+	}
+
+	// 通常情况 >= 2 个
+	SListNode *cur;
+	for (cur = list->first; cur->next->next != NULL; cur = cur->next) {
+	}
+	// cur 就是倒数第二个结点
+	free(cur->next);
+	cur->next = NULL;
+}
+void SListPrint(SList *list) {
+	for (SListNode *cur = list->first; cur != NULL; cur = cur->next) {
+		printf("%d --> ", cur->data);
+		cout << cur->data << " " << endl;
+	}
+}
+
 // 菜单
 void menu() {
-	cout << "**************************************" << endl;
-	cout << "a. 初始化栈" << endl;
-	cout << "b. 入栈" << endl;
-	cout << "c. 出栈" << endl;
-	cout << "d. 打印栈内元素" << endl;
-	cout << "e. " << endl;
-	cout << "f. " << endl;
-	cout << "g. " << endl;
-	cout << "h. " << endl;
-	cout << "i. " << endl;
-	cout << "g. " << endl;
-	cout << "h. " << endl;
-	cout << "k. " << endl;
-	cout << "m. 初始化链式队列" << endl;
-	cout << "n. 数据元素val_4入队，请输入整形数字val:" << endl;
-	cout << "o. 队尾元素出队：" << endl;
-	cout << "p. 打印链式队列元素" << endl;
-	cout << "**************************************" << endl;
+	cout << "********************************************************************" << endl;
+	cout << "	a. 初始化顺序栈" << endl;
+	cout << "	b. 数据元素val_1入栈，请输入整形数字val_1" << endl;
+	cout << "	c. 栈顶元素出栈" << endl;
+	cout << "	d. 打印顺序栈内元素" << endl;
+	cout << endl;
+	cout << "	e. 初始化链式栈" << endl;
+	cout << "	f. 数据元素val_2入栈，请输入整形数字val_2" << endl;
+	cout << "	g. 栈顶元素出栈" << endl;
+	cout << "	h. 打印顺序栈内元素" << endl;
+	cout << endl;
+	cout << "	i. 初始化顺序式队列" << endl;
+	cout << "	j. 数据元素val_3入队，请输入整形数字val_3" << endl;
+	cout << "	k. 队尾元素出队" << endl;
+	cout << "	l. 打印顺序式队列元素" << endl;
+	cout << endl;
+	cout << "	m. 初始化链式队列" << endl;
+	cout << "	n. 数据元素val_4入队，请输入整形数字val_4" << endl;
+	cout << "	o. 队尾元素出队：" << endl;
+	cout << "	p. 打印链式队列元素" << endl;
+	cout << "********************************************************************" << endl;
 }
 
 int main() {
@@ -161,13 +272,15 @@ int main() {
 	Stack stack;
 	Queue queue;
 	SQueue squeue;
+	SList slist;
 	menu();
 	while (cin >> x) {
 		switch (x) {
 		// 顺序式栈
 		case 'a':
-			cout << "初始化栈stack,初始化成功！"<< endl;
+			cout << "初始化顺序栈stack"<< endl;
 			StackInit(&stack);
+			cout << "初始化成功！" << endl;
 			menu();
 			break;
 		case 'b':
@@ -185,22 +298,36 @@ int main() {
 			menu();
 			break;
 		case 'd':
-			cout << " 打印栈内元素： ";
+			cout << " 打印顺序栈内元素： ";
 			StackPrint(&stack);
 			menu();
 			break;
 		
 		// 链式栈
 		case 'e':
-
+			cout << "初始化链式栈stack" << endl;
+			SListInit(&slist);
+			cout << "初始化成功！" << endl;
+			menu();
 			break;
-
 		case 'f':
+			cout << "数据元素val_2入栈，请输入整形数字val_2:" << endl;
+			SDataType val_2;
+			cin >> val_2;
+			SListPushBack(&slist, val_2);
+			cout << "入栈成功" << endl;
+			menu();
 			break;
-
 		case 'g':
+			cout << "栈顶元素出栈：" << endl;
+			SListPopBack(&slist);
+			cout << "出栈成功！" << endl;
+			menu();
 			break;
 		case 'h':
+			cout << "打印顺序栈内元素： ";
+			SListPrint(&slist);
+			menu();
 			break;
 
 		// 顺序队列
@@ -209,7 +336,6 @@ int main() {
 			InitSQueue(&squeue);
 			cout << "顺序式队列初始化成功" << endl;
 			break;
-
 		case 'j':
 			QDataType val_3;
 			cout << "数据元素val_3入队，请输入整形数字val:";
@@ -218,7 +344,6 @@ int main() {
 			SQueuePush(&squeue, val_3);
 			menu();
 			break;
-
 		case 'k':
 			cout << "队尾元素出队" << endl;
 			SQueuePop(&squeue);
@@ -231,7 +356,6 @@ int main() {
 			menu();
 			break;
 		
-
 		// 链式队列
 		case 'm':
 			cout << "初始化链式队列" << endl;
@@ -239,17 +363,15 @@ int main() {
 			cout << "链式队列初始化成功" << endl;
 			menu();
 			break;
-
 		case 'n':
 			QDataType val_4;
 			cout << "数据元素val_4入队，请输入整形数字val:";
 			cin >> val_4;
 			cout << endl;
 			QueuePush(&queue, val_4);
+			cout << "入队成功" << endl;
 			menu();
 			break;
-
-
 		case 'o':
 			cout << "队尾元素出队：" << endl;
 			QueuePop(&queue);
