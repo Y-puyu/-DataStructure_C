@@ -29,12 +29,11 @@ void SQueuePop(SQueue *q){
 	q->front++;
 }
 void SQueuePrint(SQueue *q) {
-	for (int i = 0; i < q->rear; i++) {
-		cout << q->data[i] << "  " << endl;
+	for (int i = q->front; i < q->rear; i++) {
+		cout << q->data[i] << " " ;
 	}
-
+	cout << endl;
 }
-
 
 typedef int QDataType;
 // 用单链表实现队列
@@ -88,7 +87,7 @@ void QueuePop(Queue *queue) {
 void QueuePrint(Queue *queue) {
 	Queue *qtmp = queue;
 	for (QNode *q = qtmp->front; q != queue->rear; q=q->next) {
-		cout << qtmp->front->val << ' ';
+		cout << qtmp->front->val << "  ";
 		// qtmp->front = qtmp->front->next;   出了bug 搞了1天....
 	}
 	cout << queue->rear->val<<endl;
@@ -152,7 +151,6 @@ void SListInit(SList *list) {
 	list->first = NULL;
 }
 
-
 // 申请单链表节点空间
 SListNode * BuySListNode(SLDataType data) {
 	SListNode *node = (SListNode *)malloc(sizeof(SListNode));
@@ -207,14 +205,6 @@ void SListPushBack(SList *list, SLDataType data)
 	lastone->next = node;
 }
 
-void SListPopFront(SList *list) {
-	assert(list);	// 没有链表
-	assert(list->first != NULL);	// 有链表，但是链表是空的
-
-	SListNode *old_first = list->first;
-	list->first = list->first->next;
-	free(old_first);
-}
 // 单链表尾删即栈元素出栈
 void SListPopBack(SList *list)
 {
@@ -237,9 +227,9 @@ void SListPopBack(SList *list)
 }
 void SListPrint(SList *list) {
 	for (SListNode *cur = list->first; cur != NULL; cur = cur->next) {
-		printf("%d --> ", cur->data);
-		cout << cur->data << " " << endl;
+		cout << cur->data << " ";
 	}
+	cout << endl;
 }
 
 // 菜单
@@ -311,7 +301,7 @@ int main() {
 			menu();
 			break;
 		case 'f':
-			cout << "数据元素val_2入栈，请输入整形数字val_2:" << endl;
+			cout << "数据元素val_2入栈，请输入整形数字val_2: ";
 			SDataType val_2;
 			cin >> val_2;
 			SListPushBack(&slist, val_2);

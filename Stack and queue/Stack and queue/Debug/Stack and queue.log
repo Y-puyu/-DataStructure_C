@@ -1,3 +1,2 @@
 ﻿  test.cpp
-d:\aaatest\datastructure_c\stack and queue\stack and queue\test.cpp(210): error C2084: 函数“void SListPopFront(SList *)”已有主体
-  d:\aaatest\datastructure_c\stack and queue\stack and queue\test.cpp(178): note: 参见“SListPopFront”的前一个定义
+  Stack and queue.vcxproj -> D:\AAATest\DataStructure_C\Stack and queue\Debug\Stack and queue.exe
