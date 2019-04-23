@@ -26,10 +26,14 @@ void SQueuePush(SQueue *q, int val) {
 
 // ³ö¶Ó
 void SQueuePop(SQueue *q){
-	q->front++;
+	int i = q->rear + 1;
+	for (int j= 0; j < i; j++) {
+		q->data[j] = q->data[j+1];
+	}
+	q->rear--;
 }
 void SQueuePrint(SQueue *q) {
-	for (int i = q->front; i < q->rear; i++) {
+	for (int i = q->front+1; i < q->rear+1; i++) {
 		cout << q->data[i] << " " ;
 	}
 	cout << endl;
