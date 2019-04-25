@@ -90,11 +90,11 @@ void QueuePop(Queue *queue) {
 // 打印队列元素        
 void QueuePrint(Queue *queue) {
 	Queue *qtmp = queue;
-	for (QNode *q = qtmp->front; q != queue->rear; q=q->next) {
-		cout << qtmp->front->val << "  ";
-		// qtmp->front = qtmp->front->next;   出了bug 搞了1天....
+	for (QNode *q = qtmp->front; q != NULL; q=q->next) {
+		cout << q->val << "  ";
+		// qtmp->front = qtmp->front->next;   鬼知道我在干什么...出了bug 郁闷了1天....
 	}
-	cout << queue->rear->val<<endl;
+	cout << endl;
 }
 
 // 数据类型
@@ -165,8 +165,7 @@ SListNode * BuySListNode(SLDataType data) {
 }
 
 // 单链表尾插即栈元素入栈
-void SListPushFront(SList *list, SLDataType data)
-{
+void SListPushFront(SList *list, SLDataType data) {
 	assert(list != NULL);
 
 	// 1. Node 空间
@@ -177,8 +176,7 @@ void SListPushFront(SList *list, SLDataType data)
 	list->first = node;
 }
 
-void SListPopFront(SList *list)
-{
+void SListPopFront(SList *list) {
 	assert(list);	// 没有链表
 	assert(list->first != NULL);	// 有链表，但是链表是空的
 
@@ -187,8 +185,7 @@ void SListPopFront(SList *list)
 	free(old_first);
 }
 
-void SListPushBack(SList *list, SLDataType data)
-{
+void SListPushBack(SList *list, SLDataType data) {
 	assert(list != NULL);
 
 	if (list->first == NULL) {
@@ -210,8 +207,7 @@ void SListPushBack(SList *list, SLDataType data)
 }
 
 // 单链表尾删即栈元素出栈
-void SListPopBack(SList *list)
-{
+void SListPopBack(SList *list) {
 	assert(list != NULL);
 	assert(list->first != NULL);	// 0 个
 
@@ -239,25 +235,29 @@ void SListPrint(SList *list) {
 // 菜单
 void menu() {
 	cout << "********************************************************************" << endl;
-	cout << "	a. 初始化顺序栈" << endl;
-	cout << "	b. 数据元素val_1入栈，请输入整形数字val_1" << endl;
-	cout << "	c. 栈顶元素出栈" << endl;
-	cout << "	d. 打印顺序栈内元素" << endl;
+	cout << " 顺序栈:" << endl;
+	cout << "	 a. 初始化顺序栈" << endl;
+	cout << "	 b. 数据元素val_1入栈，请输入整形数字val_1" << endl;
+	cout << "	 c. 栈顶元素出栈" << endl;
+	cout << "	 d. 打印顺序栈内元素" << endl;
 	cout << endl;
-	cout << "	e. 初始化链式栈" << endl;
-	cout << "	f. 数据元素val_2入栈，请输入整形数字val_2" << endl;
-	cout << "	g. 栈顶元素出栈" << endl;
-	cout << "	h. 打印顺序栈内元素" << endl;
+	cout << " 链式栈:" << endl;
+	cout << "	 e. 初始化链式栈" << endl;
+	cout << "	 f. 数据元素val_2入栈，请输入整形数字val_2" << endl;
+	cout << "	 g. 栈顶元素出栈" << endl;
+	cout << "	 h. 打印顺序栈内元素" << endl;
 	cout << endl;
-	cout << "	i. 初始化顺序式队列" << endl;
-	cout << "	j. 数据元素val_3入队，请输入整形数字val_3" << endl;
-	cout << "	k. 队尾元素出队" << endl;
-	cout << "	l. 打印顺序式队列元素" << endl;
+	cout << " 顺序队列:" << endl;
+	cout << "	 i. 初始化顺序队列" << endl;
+	cout << "	 j. 数据元素val_3入队，请输入整形数字val_3" << endl;
+	cout << "	 k. 队尾元素出队" << endl;
+	cout << "	 l. 打印顺序队列元素" << endl;
 	cout << endl;
-	cout << "	m. 初始化链式队列" << endl;
-	cout << "	n. 数据元素val_4入队，请输入整形数字val_4" << endl;
-	cout << "	o. 队尾元素出队：" << endl;
-	cout << "	p. 打印链式队列元素" << endl;
+	cout << " 链式队列:" << endl;
+	cout << "	 m. 初始化链式队列" << endl;
+	cout << "	 n. 数据元素val_4入队，请输入整形数字val_4" << endl;
+	cout << "	 o. 队尾元素出队：" << endl;
+	cout << "	 p. 打印链式队列元素" << endl;
 	cout << "********************************************************************" << endl;
 }
 
@@ -270,7 +270,6 @@ int main() {
 	menu();
 	while (cin >> x) {
 		switch (x) {
-		// 顺序式栈
 		case 'a':
 			cout << "初始化顺序栈stack"<< endl;
 			StackInit(&stack);
