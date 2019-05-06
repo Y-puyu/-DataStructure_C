@@ -5,7 +5,8 @@
 #define MAX_LEN	(100)
 using namespace std;
 
-typedef int QDataType;
+typedef int QDataType;  
+typedef int QDataType;    
 
 typedef struct {
 	QDataType data[MAX_LEN];
